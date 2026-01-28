@@ -69,7 +69,11 @@ const QUERY_USER_PROMPT =
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  }),
+);
 
 initializeDatabase();
 
@@ -175,12 +179,10 @@ app.delete("/saveTrips/:id", async (req, res) => {
       return res.status(404).json({ error: "Trip not found." });
     }
 
-    return res
-      .status(200)
-      .json({
-        message: "Trip has been deleted successfully.",
-        trip: deletedtrip,
-      });
+    return res.status(200).json({
+      message: "Trip has been deleted successfully.",
+      trip: deletedtrip,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete trip." });
   }
